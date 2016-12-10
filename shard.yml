@@ -1,0 +1,10 @@
+name: binary_parser
+version: 0.0.1
+
+authors:
+  - DanSnow
+
+description: |
+  A binary parser
+
+license: MIT
