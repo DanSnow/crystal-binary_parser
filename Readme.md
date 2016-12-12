@@ -3,7 +3,7 @@ crystal-binary_parser
 
 ## Description ##
 
-** Still under devlopment **  
+**Still under devlopment**  
 A binary parser for crystal.
 
 ## Install ##
