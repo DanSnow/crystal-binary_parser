@@ -1,9 +1,7 @@
 class BinaryParser
-  @io : IO?
-
   def load(filename : String)
-    @io = File.open(filename)
-    load(@io.not_nil!)
+    io = File.open(filename)
+    load(io)
   end
 
   def load(io : IO)
@@ -15,9 +13,27 @@ class BinaryParser
     self
   end
 
+  def save(filename : String)
+    io = File.open(filename, "w")
+    save(io)
+  end
+
+  def save(io : IO)
+    {% for method in @type.methods %}
+      {% if method.name.starts_with?("_write_") %}
+        {{method.name}}(io)
+      {% end %}
+    {% end %}
+    self
+  end
+
   def self.from_io(io : IO, format : IO::ByteFormat)
     ins = self.new
     ins.load(io)
+  end
+
+  def to_io(io : IO, format : IO::ByteFormat)
+    save(io)
   end
 
   macro uint32(name)
@@ -25,6 +41,10 @@ class BinaryParser
 
     def _read_{{name.id}}(io : IO)
       @{{name.id}} = io.not_nil!.read_bytes(UInt32).as(UInt32)
+    end
+
+    def _write_{{name.id}}(io : IO)
+      io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
     end
   end
 
@@ -34,6 +54,10 @@ class BinaryParser
     def _read_{{name.id}}(io : IO)
       @{{name.id}} = io.not_nil!.read_bytes(UInt16).as(UInt16)
     end
+
+    def _write_{{name.id}}(io : IO)
+      io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
+    end
   end
 
   macro uint8(name)
@@ -41,6 +65,10 @@ class BinaryParser
 
     def _read_{{name.id}}(io : IO)
       @{{name.id}} = io.not_nil!.read_bytes(UInt8).as(UInt8)
+    end
+
+    def _write_{{name.id}}(io : IO)
+      io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
     end
   end
 
@@ -50,6 +78,10 @@ class BinaryParser
     def _read_{{name.id}}(io : IO)
       @{{name.id}} = io.not_nil!.read_bytes(Int32).as(Int32)
     end
+
+    def _write_{{name.id}}(io : IO)
+      io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
+    end
   end
 
   macro int16(name)
@@ -58,6 +90,10 @@ class BinaryParser
     def _read_{{name.id}}(io : IO)
       @{{name.id}} = io.not_nil!.read_bytes(Int16).as(Int16)
     end
+
+    def _write_{{name.id}}(io : IO)
+      io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
+    end
   end
 
   macro int8(name)
@@ -65,6 +101,10 @@ class BinaryParser
 
     def _read_{{name.id}}(io : IO)
       @{{name.id}} = io.not_nil!.read_bytes(Int8).as(Int8)
+    end
+
+    def _write_{{name.id}}(io : IO)
+      io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
     end
   end
 

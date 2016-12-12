@@ -6,6 +6,10 @@
       def _read_{{name.id}}(io : IO)
         @{{name.id}} = io.not_nil!.read_bytes(#{type}).as(#{type})
       end
+
+      def _write_{{name.id}}(io : IO)
+        io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
+      end
     end
 
   EOD
