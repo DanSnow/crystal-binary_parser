@@ -15,14 +15,14 @@ class BinaryParser
 
   def save(filename : String)
     io = File.open(filename, "w")
-    save(io)
+    write(io)
   end
 
   def to_s(io : IO)
-    save(io)
+    write(io)
   end
 
-  def save(io : IO)
+  def write(io : IO)
     {% for method in @type.methods %}
       {% if method.name.starts_with?("_write_") %}
         {{method.name}}(io)
@@ -37,7 +37,7 @@ class BinaryParser
   end
 
   def to_io(io : IO, format : IO::ByteFormat)
-    save(io)
+    write(io)
   end
 
   macro uint32(name)
