@@ -21,7 +21,7 @@ dependencies:
 require "binary_parser"
 
 class Parser < BinaryParser
-  unit8 :foo
+  uint8 :foo
 end
 
 # Load a file
