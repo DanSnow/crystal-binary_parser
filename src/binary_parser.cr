@@ -174,8 +174,11 @@ class BinaryParser
 
     def _read_{{name.id}}(io : IO)
       {% if opt[:count] != -1 %}
-        slice = io.read({{opt[:count]}})
-        @{{name.id}} = String.new(slice)
+        buf = Slice(UInt8).new({{opt[:count]}})
+        io.read(buf)
+        str = String.new(buf)
+        len = str.byte_index(0) || str.bytesize
+        @{{name.id}} = str.byte_slice(0, len)
       {% else %}
         @{{name.id}} = io.gets('\0')
       {% end %}
