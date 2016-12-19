@@ -51,6 +51,10 @@ class BinaryParser
     def _write_{{name.id}}(io : IO)
       io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
     end
+
+    def _size_static_{{name.id}}
+      sizeof(UInt32)
+    end
   end
 
   macro uint16(name)
@@ -63,6 +67,10 @@ class BinaryParser
 
     def _write_{{name.id}}(io : IO)
       io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
+    end
+
+    def _size_static_{{name.id}}
+      sizeof(UInt16)
     end
   end
 
@@ -77,6 +85,10 @@ class BinaryParser
     def _write_{{name.id}}(io : IO)
       io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
     end
+
+    def _size_static_{{name.id}}
+      sizeof(UInt8)
+    end
   end
 
   macro int32(name)
@@ -89,6 +101,10 @@ class BinaryParser
 
     def _write_{{name.id}}(io : IO)
       io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
+    end
+
+    def _size_static_{{name.id}}
+      sizeof(Int32)
     end
   end
 
@@ -103,6 +119,10 @@ class BinaryParser
     def _write_{{name.id}}(io : IO)
       io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
     end
+
+    def _size_static_{{name.id}}
+      sizeof(Int16)
+    end
   end
 
   macro int8(name)
@@ -116,6 +136,10 @@ class BinaryParser
     def _write_{{name.id}}(io : IO)
       io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
     end
+
+    def _size_static_{{name.id}}
+      sizeof(Int8)
+    end
   end
 
   macro char(name)
@@ -125,6 +149,10 @@ class BinaryParser
     def _read_{{name.id}}(io : IO)
       @{{name.id}} = io.not_nil!.read_char
     end
+
+    def _size_static_{{name.id}}
+      sizeof(Char)
+    end
   end
 
   macro type(name, klass)
@@ -132,12 +160,16 @@ class BinaryParser
     @{{name.id}} = {{klass}}.new
 
     def _read_{{name.id}}(io : IO)
-      {% raise "Must inhert BinaryParser" if  @type >= klass.resolve %}
+      {% raise "Must inhert BinaryParser" if  BinaryParser < klass.resolve %}
       @{{name.id}} = io.read_bytes({{klass}}).as({{klass}})
     end
 
     def _write_{{name.id}}(io : IO)
       io.write_bytes(@{{name.id}}.not_nil!)
+    end
+
+    def _size_dyn_{{name.id}}
+      @{{name.id}}.bytesize
     end
   end
 
@@ -166,32 +198,92 @@ class BinaryParser
         io.write_bytes(item)
       end
     end
+
+    def _size_dyn_{{name.id}}
+      {% if opt[:type].resolve < BinaryParser %}
+        res = @{{name.id}}.reduce(0) do |size, x|
+          size + x.bytesize
+        end
+        res
+      {% else %}
+        @{{name.id}}.size * sizeof({{opt[:type]}})
+      {% end %}
+    end
   end
 
   macro string(name, opt = { count: -1 })
     property! :{{name.id}}
     @{{name.id}} = ""
 
+    # TODO: Refactor
     def _read_{{name.id}}(io : IO)
-      {% if opt[:count] != -1 %}
-        buf = Slice(UInt8).new({{opt[:count]}})
+      {% if opt[:count].is_a?(NumberLiteral) %}
+        {% if opt[:count] != -1 %}
+          buf = Slice(UInt8).new({{opt[:count]}})
+          io.read(buf)
+          str = String.new(buf)
+          len = str.byte_index(0) || str.bytesize
+          @{{name.id}} = str.byte_slice(0, len)
+        {% else %}
+          @{{name.id}} = io.gets('\0')
+        {% end %}
+      {% else %}
+        buf = Slice(UInt8).new(@{{opt[:count].id}}.not_nil!)
         io.read(buf)
         str = String.new(buf)
         len = str.byte_index(0) || str.bytesize
         @{{name.id}} = str.byte_slice(0, len)
-      {% else %}
-        @{{name.id}} = io.gets('\0')
       {% end %}
     end
 
     def _write_{{name.id}}(io : IO)
-      {% if opt[:count] != -1 %}
-        slice = Slice(UInt8).new({{opt[:count]}})
-        slice.copy_from(@{{name.id}}.not_nil!.to_slice)
-        io.write(slice)
+      {% if opt[:count].is_a?(NumberLiteral) %}
+        {% if opt[:count] != -1 %}
+          slice = Slice(UInt8).new({{opt[:count]}})
+          slice.copy_from(@{{name.id}}.not_nil!.to_slice)
+          io.write(slice)
+        {% else %}
+          # FIXME
+          io.write(@{{name.id}}.not_nil!.to_slice)
+        {% end %}
       {% else %}
         io.write(@{{name.id}}.not_nil!.to_slice)
       {% end %}
+    end
+
+    def _size_dyn_{{name.id}}
+      {% if opt[:count].is_a?(NumberLiteral) && opt[:count] != -1 %}
+        {{opt[:count]}}
+      {% else %}
+        @{{name.id}}.size
+      {% end %}
+    end
+  end
+end
+
+module ByteSize
+  macro included
+    @static_size : Int32?
+
+    def bytesize
+      dyn_size = 0
+      {% for func in @type.methods %}
+        {% if func.name.starts_with? "_size_dyn" %}
+          dyn_size += {{func.name}}
+        {% end %}
+      {% end %}
+      static_size + dyn_size
+    end
+
+    private def static_size
+      return @static_size.not_nil! if @static_size
+      size = 0
+      {% for func in @type.methods %}
+        {% if func.name.starts_with? "_size_static" %}
+          size += {{func.name}}
+        {% end %}
+      {% end %}
+      @static_size = size
     end
   end
 end
