@@ -1,4 +1,23 @@
 class BinaryParser
+
+  # Nested BinaryParser
+  #
+  # ### Argument:
+  # - name: Field name
+  # - klass: Another BinaryParser
+  #
+  # ### Example:
+  # ```crystal
+  #
+  # class InnerParser < BinaryParser
+  #   uint8 :foo
+  # end
+  #
+  # class Parser < BinaryParser
+  #   type :inner, InnerParser
+  # end
+  # ```
+  #
   macro type(name, klass)
     property! :{{name.id}}
     @{{name.id}} = {{klass}}.new

@@ -1,4 +1,27 @@
 class BinaryParser
+
+  # Declare an array field
+  #
+  # ### Argument:
+  # - name: Field name
+  # - opt: Options
+  #   - `:type`: Element type, must implement `from_io`
+  #   - `:count`: Element size, can be a number for fixed size, or a symbol for variable size
+  #
+  # ### Example:
+  # ```crystal
+  # # Fixed size
+  # class Parser < BinaryParser
+  #   array :arr, { type: UInt8, count: 10 } # Array of 10 UInt8
+  # end
+  #
+  # # Variable size
+  # class Parser < BinaryParser
+  #   uint32 :size
+  #   array :arr, { type: UInt8, count: :size }
+  # end
+  # ```
+  #
   macro array(name, opt)
     {% raise "Must have count and type" unless opt[:type] && opt[:count]  %}
     property! :{{name.id}}

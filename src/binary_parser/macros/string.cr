@@ -1,4 +1,26 @@
 class BinaryParser
+
+  # Declare a string field
+  #
+  # ### Argument:
+  # - name: Field name
+  # - opt: Options
+  #   - `:count`: Sting length, can be a number for fixed size, `-1` for zero terminated, or a symbol for variable size
+  #
+  # ### Example:
+  # ```crystal
+  # # Fixed size
+  # class Parser < BinaryParser
+  #   string :str, { count: 10 } # Array of 10 UInt8
+  # end
+  #
+  # # Variable size
+  # class Parser < BinaryParser
+  #   uint32 :size
+  #   string :str, { count: :size }
+  # end
+  # ```
+  #
   macro string(name, opt = { count: -1 })
     property! :{{name.id}}
     @{{name.id}} = ""
