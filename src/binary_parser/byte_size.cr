@@ -1,4 +1,19 @@
 class BinaryParser
+
+  # Calculate bytesize support
+  #
+  # ```crystal
+  # class Parser < BinaryParser
+  #   uint8 :value1
+  #   uint8 :value2
+  #   include BinaryParser::ByteSize
+  # end
+  #
+  # parser = Parser.new
+  # parser.bytesize # sizeof(UInt8) * 2
+  #
+  # ```
+  #
   module ByteSize
     macro included
       @static_size : Int32?
