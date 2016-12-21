@@ -8,10 +8,10 @@ dependencies:
     - ".crystal"
   pre:
     - |
-      if [[ ! -e .crystal/bin/crystal || $(crystal --version | grep -P -o '\d+\.\d+\.\d+') != "${CRYSTAL_VERSION}" ]]; then
-        mkdir .crystal
-        wget "${CRYSTAL_URL}" -O crystal.tar.gz &&\
-        tar -zxvf crystal.tar.gz -C .crystal --strip-components=1
+      if [[ ! -e "${HOME}/.crystal/bin/crystal" || $(crystal --version | grep -P -o '\d+\.\d+\.\d+') != "${CRYSTAL_VERSION}" ]]; then
+        mkdir "${HOME}/.crystal"
+        wget "${CRYSTAL_URL}" -O "${HOME}/crystal.tar.gz" &&\
+        tar -zxvf "${HOME}/crystal.tar.gz" -C "${HOME}/.crystal" --strip-components=1
       fi
   override:
     - crystal deps
