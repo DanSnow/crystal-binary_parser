@@ -3,7 +3,7 @@ crystal-binary_parser
 
 ## Description ##
 
-**Still under devlopment**  
+**Will publish first version after document done**  
 A binary parser for crystal.
 
 ## Install ##
@@ -36,9 +36,6 @@ parser.load(io)
 # Now you can get your data
 puts parser.foo
 ```
-
-## API ##
-** TODO **
 
 ## License ##
 MIT
