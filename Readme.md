@@ -15,6 +15,14 @@ dependencies:
     github: DanSnow/crystal-binary_parser
 ```
 
+## Feature ##
+
+- Parse and write binary file
+- Support array (fixed size or variable size)
+- Support string (fixed length or valirable length)
+- Support nested parser
+- Calculate byte size
+
 ## Usage ##
 
 ```crystal
