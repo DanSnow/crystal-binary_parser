@@ -1,4 +1,10 @@
 class BinaryParser
+
+  # Declare a uint16 field
+  #
+  # ```crystal
+  # uint16 :value # name of field
+  # ```
   macro uint16(name)
     property! :{{name.id}}
     @{{name.id}} = 0u16
