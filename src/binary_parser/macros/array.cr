@@ -5,7 +5,7 @@ class BinaryParser
   # ### Argument:
   # - name: Field name
   # - opt: Options
-  #   - `:type`: Element type, must implement `from_io`
+  #   - `:type`: Element type, must respond to `from_io`
   #   - `:count`: Element size, can be a number for fixed size, or a symbol for variable size
   #
   # ### Example:
