@@ -1,6 +1,9 @@
 crystal-binary_parser
 =====================
 
+[![CircleCI](https://circleci.com/gh/DanSnow/crystal-binary_parser.svg?style=shield)](https://circleci.com/gh/DanSnow/crystal-binary_parser)
+[![GitHub release](https://img.shields.io/github/release/DanSnow/crystal-binary_parser.svg?style=flat-square)](https://github.com/DanSnow/crystal-binary_parser/releases)
+
 ## Description ##
 
 A binary parser for crystal.
