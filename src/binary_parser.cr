@@ -65,7 +65,7 @@ class BinaryParser
 
   # Support for `IO#read_bytes`
   #
-  # **NOTICE**: Current not respect to `IO::ByteFormat`
+  # **NOTICE**: Currently not respect to `IO::ByteFormat`
   def self.from_io(io : IO, format : IO::ByteFormat)
     ins = self.new
     ins.load(io)
@@ -73,7 +73,7 @@ class BinaryParser
 
   # Support for `IO#write_bytes`
   #
-  # **NOTICE**: Current not respect to `IO::ByteFormat`
+  # **NOTICE**: Currently not respect to `IO::ByteFormat`
   def to_io(io : IO, format : IO::ByteFormat)
     write(io)
   end
