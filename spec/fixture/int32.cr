@@ -1,7 +1,7 @@
 require "../../src/binary_parser"
 
 class Int32Parser < BinaryParser
-  int8 :value
+  int32 :value
 end
 
 Int32Fixture = IO::Memory.new(sizeof(Int32))
