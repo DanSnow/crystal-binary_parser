@@ -2,6 +2,13 @@ require "./spec_helper"
 require "./fixture/*"
 
 describe BinaryParser do
+  describe "#uint64" do
+    it "parse correct" do
+      parser = UInt64Parser.new.load(UInt64Fixture)
+      expect(parser.value).to eq(42)
+    end
+  end
+
   describe "#uint32" do
     it "parse correct" do
       parser = UInt32Parser.new.load(UInt32Fixture)
@@ -19,6 +26,13 @@ describe BinaryParser do
   describe "#uint8" do
     it "parse correct" do
       parser = UInt8Parser.new.load(UInt8Fixture)
+      expect(parser.value).to eq(42)
+    end
+  end
+
+  describe "#int64" do
+    it "parse correct" do
+      parser = Int64Parser.new.load(Int64Fixture)
       expect(parser.value).to eq(42)
     end
   end
