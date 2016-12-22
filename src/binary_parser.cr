@@ -16,7 +16,6 @@ require "./binary_parser/macros/*"
 # ```
 #
 class BinaryParser
-
   # Load from file with `filename`
   #
   def load(filename : String)
@@ -80,4 +79,3 @@ class BinaryParser
 end
 
 require "./binary_parser/byte_size"
-

@@ -1,5 +1,4 @@
 class BinaryParser
-
   # Calculate bytesize support
   #
   # ```crystal
@@ -11,7 +10,6 @@ class BinaryParser
   #
   # parser = Parser.new
   # parser.bytesize # sizeof(UInt8) * 2
-  #
   # ```
   #
   module ByteSize

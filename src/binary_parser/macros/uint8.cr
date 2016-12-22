@@ -1,5 +1,4 @@
 class BinaryParser
-
   # Declare a uint8 field
   #
   # ```crystal

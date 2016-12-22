@@ -1,7 +1,7 @@
 require "../../src/binary_parser"
 
 class FixedArrayParser < BinaryParser
-  array :arr, { type: UInt8, count: 5 }
+  array :arr, {type: UInt8, count: 5}
 end
 
 FixedArrayFixture = IO::Memory.new(sizeof(UInt8) * 5)
@@ -12,7 +12,7 @@ FixedArrayFixture.rewind
 
 class VarArrayParser < BinaryParser
   uint32 :size
-  array :arr, { type: UInt8, count: :size }
+  array :arr, {type: UInt8, count: :size}
 end
 
 VarArrayFixture = IO::Memory.new(sizeof(UInt32) + sizeof(UInt8) * 5)

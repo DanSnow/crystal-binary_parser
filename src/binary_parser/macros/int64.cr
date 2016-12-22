@@ -1,5 +1,4 @@
 class BinaryParser
-
   # Declare a int64 field
   #
   # ```crystal

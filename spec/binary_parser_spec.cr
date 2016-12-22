@@ -75,4 +75,3 @@ describe BinaryParser do
     end
   end
 end
-

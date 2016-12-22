@@ -1,5 +1,4 @@
 class BinaryParser
-
   # Nested BinaryParser
   #
   # ### Argument:
@@ -8,7 +7,6 @@ class BinaryParser
   #
   # ### Example:
   # ```crystal
-  #
   # class InnerParser < BinaryParser
   #   uint8 :foo
   # end
@@ -23,7 +21,7 @@ class BinaryParser
     @{{name.id}} = {{klass}}.new
 
     def _read_{{name.id}}(io : IO)
-      {% raise "Must inhert BinaryParser" if  BinaryParser < klass.resolve %}
+      {% raise "Must inhert BinaryParser" if BinaryParser < klass.resolve %}
       @{{name.id}} = io.read_bytes({{klass}}).as({{klass}})
     end
 
