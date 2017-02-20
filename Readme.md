@@ -23,6 +23,7 @@ dependencies:
 - Support array (fixed size or variable size)
 - Support string (fixed length or valirable length)
 - Support nested parser
+- Support config which endian to use
 - Calculate byte size
 
 ## Usage ##
