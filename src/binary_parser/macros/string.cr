@@ -25,7 +25,7 @@ class BinaryParser
     @{{name.id}} = ""
 
     # TODO: Refactor
-    def _read_{{name.id}}(io : IO)
+    def _read_{{name.id}}(io : IO, _format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
       {% if opt[:count].is_a?(NumberLiteral) %}
         {% if opt[:count] != -1 %}
           buf = Slice(UInt8).new({{opt[:count]}})
@@ -45,7 +45,7 @@ class BinaryParser
       {% end %}
     end
 
-    def _write_{{name.id}}(io : IO)
+    def _write_{{name.id}}(io : IO, _format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
       {% if opt[:count].is_a?(NumberLiteral) %}
         {% if opt[:count] != -1 %}
           slice = Slice(UInt8).new({{opt[:count]}})

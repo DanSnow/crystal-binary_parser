@@ -20,13 +20,13 @@ class BinaryParser
     property! :{{name.id}}
     @{{name.id}} = {{klass}}.new
 
-    def _read_{{name.id}}(io : IO)
+    def _read_{{name.id}}(io : IO, format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
       {% raise "Must inhert BinaryParser" if BinaryParser < klass.resolve %}
-      @{{name.id}} = io.read_bytes({{klass}}).as({{klass}})
+      @{{name.id}} = io.read_bytes({{klass}}, format).as({{klass}})
     end
 
-    def _write_{{name.id}}(io : IO)
-      io.write_bytes(@{{name.id}}.not_nil!)
+    def _write_{{name.id}}(io : IO, format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
+      io.write_bytes(@{{name.id}}.not_nil!, format)
     end
 
     def _size_dyn_{{name.id}}

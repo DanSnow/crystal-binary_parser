@@ -26,14 +26,14 @@ class BinaryParser
     property! :{{name.id}}
     @{{name.id}} = [] of {{opt[:type]}}
 
-    def _read_{{name.id}}(io : IO)
+    def _read_{{name.id}}(io : IO, format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
       {% if opt[:count].is_a?(NumberLiteral) %}
         @{{name.id}} = Array({{opt[:type]}}).new({{opt[:count]}}) do
-          io.read_bytes({{opt[:type]}})
+          io.read_bytes({{opt[:type]}}, format)
         end
       {% elsif opt[:count].id != "eof" %}
         @{{name.id}} = Array({{opt[:type]}}).new(@{{opt[:count].id}}.not_nil!) do
-          io.read_bytes({{opt[:type]}})
+          io.read_bytes({{opt[:type]}}, format)
         end
       {% else %}
         @{{name.id}} = [] of {{opt[:type]}}
@@ -41,9 +41,9 @@ class BinaryParser
       {% end %}
     end
 
-    def _write_{{name.id}}(io : IO)
+    def _write_{{name.id}}(io : IO, format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
       @{{name.id}}.not_nil!.each do |item|
-        io.write_bytes(item)
+        io.write_bytes(item, format)
       end
     end
 

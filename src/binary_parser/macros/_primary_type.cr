@@ -19,12 +19,14 @@ class BinaryParser
     property! :{{name.id}}
     @{{name.id}} = 0{{suffix.id}}
 
-    def _read_{{name.id}}(io : IO)
-      @{{name.id}} = io.not_nil!.read_bytes({{type.id}}).as({{type.id}})
+    def _read_{{name.id}}(io : IO, format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
+      format = endian_config if format == IO::ByteFormat::SystemEndian
+      @{{name.id}} = io.not_nil!.read_bytes({{type.id}}, format).as({{type.id}})
     end
 
-    def _write_{{name.id}}(io : IO)
-      io.not_nil!.write_bytes(@{{name.id}}.not_nil!)
+    def _write_{{name.id}}(io : IO, format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
+      format = format == IO::ByteFormat::SystemEndian ? endian_config : format
+      io.not_nil!.write_bytes(@{{name.id}}.not_nil!, format)
     end
 
     def _size_static_{{name.id}}

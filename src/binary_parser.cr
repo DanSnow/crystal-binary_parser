@@ -18,17 +18,17 @@ require "./binary_parser/macros/*"
 class BinaryParser
   # Load from file with `filename`
   #
-  def load(filename : String)
+  def load(filename : String, format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
     io = File.open(filename)
-    load(io)
+    load(io, format)
   end
 
   # Load from an IO object
   #
-  def load(io : IO)
+  def load(io : IO, format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
     {% for method in @type.methods %}
       {% if method.name.starts_with?("_read_") %}
-        {{method.name}}(io)
+        {{method.name}}(io, format)
       {% end %}
     {% end %}
     self
@@ -36,9 +36,9 @@ class BinaryParser
 
   # Save to file with `filename`
   #
-  def save(filename : String)
+  def save(filename : String, format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
     io = File.open(filename, "w")
-    write(io)
+    write(io, format)
   end
 
   # Convert to string
@@ -53,10 +53,10 @@ class BinaryParser
 
   # Write to an IO object
   #
-  def write(io : IO)
+  def write(io : IO, format : IO::ByteFormat = IO::ByteFormat::SystemEndian)
     {% for method in @type.methods %}
       {% if method.name.starts_with?("_write_") %}
-        {{method.name}}(io)
+        {{method.name}}(io, format)
       {% end %}
     {% end %}
     self
@@ -64,17 +64,15 @@ class BinaryParser
 
   # Support for `IO#read_bytes`
   #
-  # NOTE: Currently not respect to `IO::ByteFormat`
   def self.from_io(io : IO, format : IO::ByteFormat)
     ins = self.new
-    ins.load(io)
+    ins.load(io, format)
   end
 
   # Support for `IO#write_bytes`
   #
-  # NOTE: Currently not respect to `IO::ByteFormat`
   def to_io(io : IO, format : IO::ByteFormat)
-    write(io)
+    write(io, format)
   end
 end
 
