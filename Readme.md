@@ -8,6 +8,9 @@ crystal-binary_parser
 
 A binary parser for crystal.
 
+## Requirement ##
+- crystal >= 0.20.0
+
 ## Install ##
 
 Add this to your `shard.yml`  
