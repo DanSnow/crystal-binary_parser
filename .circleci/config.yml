@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/crystal-binary_parser
+    docker:
+      - image: crystallang/crystal
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "shard.yml" }}
+      - run:
+          name: Install depencies
+          command: crystal deps
+      - save_cache:
+          key: dependency-cache-{{ checksum "shard.yml" }}
+          paths:
+            - ./lib
+      - run:
+          name: Test
+          command: crystal spec
