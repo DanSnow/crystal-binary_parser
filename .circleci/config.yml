@@ -10,7 +10,7 @@ jobs:
           key: dependency-cache-{{ checksum "shard.yml" }}
       - run:
           name: Install depencies
-          command: crystal deps
+          command: shards
       - save_cache:
           key: dependency-cache-{{ checksum "shard.yml" }}
           paths:
