@@ -4,14 +4,18 @@ crystal-binary_parser
 [![CircleCI](https://circleci.com/gh/DanSnow/crystal-binary_parser.svg?style=shield)](https://circleci.com/gh/DanSnow/crystal-binary_parser)
 [![GitHub release](https://img.shields.io/github/release/DanSnow/crystal-binary_parser.svg?style=flat-square)](https://github.com/DanSnow/crystal-binary_parser/releases)
 
-## Description ##
+Description
+-----------
 
 A binary parser for crystal.
 
-## Requirement ##
+Requirement
+-----------
+
 - crystal >= 0.20.0
 
-## Install ##
+Install
+-------
 
 Add this to your `shard.yml`  
 ```yml
@@ -20,7 +24,8 @@ dependencies:
     github: DanSnow/crystal-binary_parser
 ```
 
-## Feature ##
+Feature
+-------
 
 - Parse and write binary file
 - Support array (fixed size or variable size)
@@ -29,7 +34,8 @@ dependencies:
 - Support config which endian to use
 - Calculate byte size
 
-## Usage ##
+Usage
+-----
 
 ```crystal
 require "binary_parser"
@@ -51,5 +57,7 @@ parser.load(io)
 puts parser.foo
 ```
 
-## License ##
+License
+-------
+
 MIT
