@@ -17,7 +17,8 @@ Requirement
 Install
 -------
 
-Add this to your `shard.yml`  
+Add this to your `shard.yml`
+
 ```yml
 dependencies:
   binary_parser:
