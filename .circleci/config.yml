@@ -1,17 +1,10 @@
 ---
 version: 2.1
 workflows:
-   version: 2
-   build_and_test:
-     triggers:
-       - schedule:
-           cron: "0 0 * * 0"
-           filters:
-             branches:
-               only:
-                 - master
-     jobs:
-       - build
+  version: 2
+  build_and_test:
+    jobs:
+      - build
 jobs:
   build:
     working_directory: ~/crystal-binary_parser
