@@ -7,11 +7,11 @@ describe BinaryParser::ByteSize do
       size = sizeof(UInt32) * 2 + sizeof(UInt8)
       parser = ByteSizeFixture.new
 
-      expect(parser.bytesize).to eq(size)
+      parser.bytesize.should eq size
       parser.str = "foo"
-      expect(parser.bytesize).to eq(size + 3)
+      parser.bytesize.should eq (size + 3)
       parser.arr = [0u8, 1u8, 2u8]
-      expect(parser.bytesize).to eq(size + 3 + sizeof(UInt8) * 3)
+      parser.bytesize.should eq (size + 3 + sizeof(UInt8) * 3)
     end
   end
 end

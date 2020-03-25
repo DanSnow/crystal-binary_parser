@@ -7,8 +7,4 @@ authors:
 description: |
   A binary parser
 
-development_dependencies:
-  expect:
-    github: dukex/expect.cr
-
 license: MIT
