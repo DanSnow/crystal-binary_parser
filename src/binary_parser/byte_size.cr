@@ -1,7 +1,7 @@
 class BinaryParser
   # Calculate bytesize support
   #
-  # ```crystal
+  # ```
   # class Parser < BinaryParser
   #   uint8 :value1
   #   uint8 :value2

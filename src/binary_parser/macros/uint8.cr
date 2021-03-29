@@ -3,7 +3,7 @@ require "./_primary_type"
 class BinaryParser
   # Declare a uint8 field
   #
-  # ```crystal
+  # ```
   # uint8 :value # name of field
   # ```
   macro uint8(name)

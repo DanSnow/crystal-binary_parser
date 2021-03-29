@@ -5,7 +5,7 @@ class BinaryParser
   #
   # This macro should be place at the top of class, and can only call **zero** or **one** time.
   #
-  # ```crystal
+  # ```
   # endian
   # ```
   macro endian(type)

@@ -6,7 +6,7 @@ class BinaryParser
   # - klass: Another BinaryParser
   #
   # ### Example:
-  # ```crystal
+  # ```
   # class InnerParser < BinaryParser
   #   uint8 :foo
   # end

@@ -2,7 +2,7 @@ require "./binary_parser/macros/*"
 
 # BinaryParser for Crystal
 #
-# ```crystal
+# ```
 # class Parser < BinaryParser
 #   uint8 :value
 # end
@@ -43,7 +43,7 @@ class BinaryParser
 
   # Convert to string
   #
-  # ```crystal
+  # ```
   # File.write("filename", parser)
   # ```
   #

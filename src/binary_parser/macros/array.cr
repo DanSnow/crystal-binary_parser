@@ -8,7 +8,7 @@ class BinaryParser
   #   - `:count`: Element size, can be a number for fixed size, or a symbol for variable size
   #
   # ### Example:
-  # ```crystal
+  # ```
   # # Fixed size
   # class Parser < BinaryParser
   #   array :arr, {type: UInt8, count: 10} # Array of 10 UInt8
