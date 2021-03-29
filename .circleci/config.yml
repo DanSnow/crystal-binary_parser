@@ -11,26 +11,9 @@ workflows:
               only:
                 - master
     jobs:
-      - build
+      - crystal/test
   build_and_test:
     jobs:
-      - build
-jobs:
-  build:
-    working_directory: ~/crystal-binary_parser
-    docker:
-      - image: crystallang/crystal
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "shard.yml" }}
-      - run:
-          name: Install depencies
-          command: shards
-      - save_cache:
-          key: dependency-cache-{{ checksum "shard.yml" }}
-          paths:
-            - ./lib
-      - run:
-          name: Test
-          command: crystal spec
+      - crystal/test
+orbs:
+  crystal: manastech/crystal@1.0
