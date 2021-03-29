@@ -15,5 +15,6 @@ workflows:
   build_and_test:
     jobs:
       - crystal/test
+
 orbs:
   crystal: manastech/crystal@1.0
