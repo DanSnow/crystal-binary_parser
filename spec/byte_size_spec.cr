@@ -9,9 +9,9 @@ describe BinaryParser::ByteSize do
 
       parser.bytesize.should eq size
       parser.str = "foo"
-      parser.bytesize.should eq (size + 3)
+      parser.bytesize.should eq(size + 3)
       parser.arr = [0u8, 1u8, 2u8]
-      parser.bytesize.should eq (size + 3 + sizeof(UInt8) * 3)
+      parser.bytesize.should eq(size + 3 + sizeof(UInt8) * 3)
     end
   end
 end
